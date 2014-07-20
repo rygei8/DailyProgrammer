@@ -29,7 +29,11 @@ int main()
 	test.ZoomOut();
 	cout << test.GetBitmap() << endl << endl;
 
-	// Rotate
+	// Rotate cw, then ccw
+	test.Rotate( true );
+	cout << test.GetBitmap() << endl << endl;
+	test.Rotate( false );
+	cout << test.GetBitmap() << endl << endl;
 
 	// Invert
 	test.Invert();

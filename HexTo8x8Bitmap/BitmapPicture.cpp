@@ -121,16 +121,62 @@ void BitmapPicture::ZoomOut()
 	}
 }
 
-// Rotate clockwise 90 degrees
-void BitmapPicture::RotateCW()
+// Rotate 90 degrees - cw if bool passed is true, ccw otherwise (assumes bitmap is square)
+void BitmapPicture::Rotate( bool cw )
 {
+	// vector to capture each line of Bitmap
+	vector<string> lines;
 
-}
+	// keep track of end of prev line
+	int endLine = 0;
 
-// Rotate counter-clockwise 90 degrees
-void BitmapPicture::RotateCCW()
-{
+	// traverse through Bitmap
+	for( unsigned int i = 0; i < Bitmap.length(); i++ )
+	{
+		// check if at the end of a line
+		if( Bitmap[i] == '\n' )
+		{
+			// add each line to the vector, not including '\n'
+			lines.push_back( Bitmap.substr( endLine, i - endLine ) );
+			// adjust endLine
+			endLine = i + 1;
+		}
+		// also must check if at end of last line
+		else if( i == Bitmap.length() - 1 )
+		{
+			// you are adding final line one iteration earlier than other lines, so you must add 1 to substring length
+			lines.push_back( Bitmap.substr( endLine, i - endLine + 1 ) );
+		}
+	}
 
+	// clear Bitmap
+	Bitmap = "";
+
+	// each line of the Bitmap must be recreated
+	for( unsigned int i = 0; i < lines.size(); i ++ )
+	{
+		// line length
+		int lineLength = lines[i].length();
+
+		// must traverse through each bit of each line
+		for( int j = lineLength - 1; j >= 0; j-- )
+		{
+			// rotate clockwise
+			if( cw )
+			{
+				// starting in bottom left with first bit of last line, traverse up through each line, then right to next bit
+				Bitmap += lines[j][i];
+			}
+			// rotate counter-clockwise
+			else
+			{
+				// starting in top right with last bit of first line, traverse down through each line, then left to next line
+				Bitmap += lines[lineLength - j - 1][lineLength - i - 1];
+			}
+		}
+
+		Bitmap += '\n';
+	}
 }
 
 // Flip the bits in the bitmap, turning on those that were off and vice versa

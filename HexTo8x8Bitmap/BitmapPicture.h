@@ -13,8 +13,12 @@ private:
 	int Zoom;
 
 public:
-	BitmapPicture() { Zoom = 1; };
+	// Default/Init constructor, Destructor
+	BitmapPicture() { Zoom = 1; }
 	BitmapPicture( string hex );
+	~BitmapPicture() {}
+
+	// Set/Get Bitmap methods
 	void SetHexToBitmap( string hex );
 	string GetBitmap() { return Bitmap; }
 
@@ -23,10 +27,8 @@ public:
 	// Zoom out after zooming in
 	void ZoomOut();
 
-	// Rotate clockwise
-	void RotateCW();
-	// Rotate counter-clockwise
-	void RotateCCW();
+	// Rotate 90 degrees - cw if bool passed is true, ccw otherwise (assumes bitmap is square)
+	void Rotate( bool cw );
 
 	// Flip the bits in the bitmap, turning on those that were off and vice versa
 	void Invert();
